@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
+import { ContactFormDto } from './contact.controller';
 
 @Injectable()
 export class MailService {
@@ -13,17 +14,23 @@ export class MailService {
     },
   });
 
-  async sendMail(data: { name: string; email: string; message: string }) {
+  async sendMail(data: ContactFormDto): Promise<void> {
+  try {
     await this.transporter.sendMail({
-      from: '"DiWiDi Kontakt" <your@email.com>',
+      from: `"DiWiDi Kontakt" <${process.env.SMTP_USER}>`,
       to: 'business@diwidi.net',
       subject: `Neue Nachricht von ${data.name}`,
       html: `
-        <h3>Kontaktformular</h3>
         <p><strong>Name:</strong> ${data.name}</p>
         <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Nachricht:</strong><br/>${data.message}</p>
+        <p><strong>Nachricht:</strong><br>${data.message}</p>
       `,
     });
+    console.log('✅ E-Mail erfolgreich versendet');
+  } catch (error) {
+    console.error('❌ Fehler beim E-Mail-Versand:', error);
+    throw error;
   }
+}
+
 }

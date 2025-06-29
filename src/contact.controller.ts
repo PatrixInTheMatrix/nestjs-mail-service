@@ -2,7 +2,7 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
-class ContactFormDto {
+export class ContactFormDto {
   @IsNotEmpty()
   name!: string;
 
