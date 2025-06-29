@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: nestjs-mail-service
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm run start:prod
+    autoDeploy: true
+    envVars:
+      - key: SMTP_USER
+        value: your@email.com
+      - key: SMTP_PASS
+        value: your-smtp-password
