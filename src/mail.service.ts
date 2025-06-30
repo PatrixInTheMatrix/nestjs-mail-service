@@ -17,8 +17,8 @@ export class MailService {
   async sendMail(data: ContactFormDto): Promise<void> {
     try {
       const info = await this.transporter.sendMail({
-        from: `"DiWiDi Kontakt" <${process.env.SMTP_USER}>`,
-        to: 'business@diwidi.net',
+        from: `"DiWiDi Kontaktformular" <${process.env.SMTP_USER}>`,
+        to: process.env.SMTP_USER,
         subject: `Neue Nachricht von ${data.name}`,
         html: `
           <p><strong>Name:</strong> ${data.name}</p>
