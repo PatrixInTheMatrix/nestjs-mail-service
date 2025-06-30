@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ContactController = void 0;
+exports.ContactController = exports.ContactFormDto = void 0;
 const common_1 = require("@nestjs/common");
 const mail_service_1 = require("./mail.service");
 const class_validator_1 = require("class-validator");
@@ -21,6 +21,7 @@ class ContactFormDto {
     email;
     message;
 }
+exports.ContactFormDto = ContactFormDto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)

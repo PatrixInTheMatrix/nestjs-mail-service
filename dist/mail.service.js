@@ -44,7 +44,7 @@ const common_1 = require("@nestjs/common");
 const nodemailer = __importStar(require("nodemailer"));
 let MailService = class MailService {
     transporter = nodemailer.createTransport({
-        host: 'smtp.your-mailserver.com',
+        host: 'smtp.alfahosting.de', // <- oder dein tatsächlicher SMTP-Host
         port: 587,
         secure: false,
         auth: {
@@ -53,17 +53,23 @@ let MailService = class MailService {
         },
     });
     async sendMail(data) {
-        await this.transporter.sendMail({
-            from: '"DiWiDi Kontakt" <your@email.com>',
-            to: 'business@diwidi.net',
-            subject: `Neue Nachricht von ${data.name}`,
-            html: `
-        <h3>Kontaktformular</h3>
-        <p><strong>Name:</strong> ${data.name}</p>
-        <p><strong>Email:</strong> ${data.email}</p>
-        <p><strong>Nachricht:</strong><br/>${data.message}</p>
-      `,
-        });
+        try {
+            const info = await this.transporter.sendMail({
+                from: `"DiWiDi Kontakt" <${process.env.SMTP_USER}>`,
+                to: 'business@diwidi.net',
+                subject: `Neue Nachricht von ${data.name}`,
+                html: `
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          <p><strong>Nachricht:</strong><br>${data.message}</p>
+        `,
+            });
+            console.log('✅ Mail erfolgreich gesendet:', info.messageId);
+        }
+        catch (error) {
+            console.error('❌ Fehler beim Mailversand:', error);
+            throw error;
+        }
     }
 };
 exports.MailService = MailService;

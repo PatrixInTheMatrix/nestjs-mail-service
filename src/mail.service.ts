@@ -5,9 +5,9 @@ import { ContactFormDto } from './contact.controller';
 @Injectable()
 export class MailService {
   private transporter = nodemailer.createTransport({
-    host: 'smtp.alfahosting.de', // <- oder dein tatsächlicher SMTP-Host
-    port: 587,
-    secure: false,
+    host: 'web6.alfahosting-server.de', // Dein SMTP-Server
+    port: 465,                          // SSL/TLS-Port für SMTP
+    secure: true,                       // true bei Port 465
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
